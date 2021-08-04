@@ -1,12 +1,22 @@
 import React from "react";
 import "./App.css";
+import { BrowserRouter } from "react-router-dom";
+import { Routes } from "../pages/Routes";
+import { QueryClient, QueryClientProvider } from "react-query";
+import { ReactQueryDevtools } from "react-query-devtools";
+
+const QClient = new QueryClient();
 
 export const App = (): JSX.Element => {
     return (
-        <React.Fragment>
-            <h1>App</h1>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium debitis tempora corrupti quod nesciunt obcaecati repellendus illo ullam nam. Ex molestiae magnam illo nulla eum eos. Neque labore eos quia.</p>
-        </React.Fragment>
+        <BrowserRouter>
+            <React.Fragment>
+                <QueryClientProvider client={QClient}>
+                    <Routes />
+                    <ReactQueryDevtools initialIsOpen={false} />
+                </QueryClientProvider>
+            </React.Fragment>
+        </BrowserRouter>
     );
 };
 
