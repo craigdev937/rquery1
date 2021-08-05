@@ -1,10 +1,29 @@
 import React from "react";
+import Loader from "react-loader-spinner";
+import { useQuery } from "react-query";
+import { getAllBooks } from "../global/FetchAPI";
+import { BookItem } from "./BookItem";
 
 export const List = (): JSX.Element => {
+    const { isLoading, error, data } = 
+    useQuery("books", getAllBooks);
+
+    if (isLoading) {
+        return <Loader type="ThreeDots" color="#ccc" />
+    };
+
+    if (error) return <span>Error: {`${error}`}</span>
+
     return (
         <React.Fragment>
-            <h1>List</h1>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium debitis tempora corrupti quod nesciunt obcaecati repellendus illo ullam nam. Ex molestiae magnam illo nulla eum eos. Neque labore eos quia.</p>
+            {data?.map(({id, title, author}) => (
+                <BookItem 
+                    key={id} 
+                    id={id} 
+                    author={author} 
+                    title={title} 
+                />
+            ))}
         </React.Fragment>
     );
 };

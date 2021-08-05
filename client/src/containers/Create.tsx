@@ -1,10 +1,26 @@
 import React from "react";
+import { BookForm } from "./BookForm";
+import { useHistory } from "react-router-dom";
+import { useMutation } from "react-query";
+import { createBook } from "../global/FetchAPI";
+import { IBook } from "../models/IBook";
 
 export const Create = (): JSX.Element => {
+    const history = useHistory();
+    const { mutateAsync, isLoading } = useMutation(createBook);
+
+    const handleSubmit = async (data: IBook) => {
+        await mutateAsync({...data});
+        history.push("/");
+    };
+
     return (
         <React.Fragment>
-            <h1>Create</h1>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium debitis tempora corrupti quod nesciunt obcaecati repellendus illo ullam nam. Ex molestiae magnam illo nulla eum eos. Neque labore eos quia.</p>
+            <h1>Create a new Book</h1>
+            <BookForm 
+                onFormSubmit={handleSubmit} 
+                isLoading={isLoading} 
+            />
         </React.Fragment>
     );
 };
