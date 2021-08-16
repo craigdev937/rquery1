@@ -1,22 +1,22 @@
 import React from "react";
 import Loader from "react-loader-spinner";
-import { BookForm } from "./BookForm";
-import { useParams, useHistory } from "react-router-dom";
+import { BookForm } from "../components/BookForm";
 import { useQuery, useMutation } from "react-query";
-import { getOneBook, updateBook } from "../global/FetchAPI";
-import { IBook } from "../models/IBook";
+import { useParams, useHistory } from "react-router-dom";
+import { fetchOneBook, updateBook } from "../global/FetchAPI";
 
-export const Update = (): JSX.Element => {
+export const Update = () => {
+    const { id } = useParams();
     const history = useHistory();
-    const { id }: IBook = useParams();
-    const { error, isLoading, data } = 
-        useQuery("book", getOneBook);
+    const { error, isError, isLoading, data } = 
+        useQuery(["book", {id}], fetchOneBook);
     const { mutateAsync, isLoading: isMutating } = 
         useMutation(updateBook);
 
-    const handleSubmit = async (data: IBook) => {
+    const handleSubmit = async (data) => {
         await mutateAsync({...data, id});
-        history.push("/");    };
+        history.push("/");
+    };
 
     if (isLoading) {
         <Loader 
@@ -26,11 +26,15 @@ export const Update = (): JSX.Element => {
         />
     };
 
-    if (error) return <span>Error: {`${error}`}</span>
+    if (isError) {
+        <aside>
+            Error: {error.message}
+        </aside>
+    };
 
     return (
         <React.Fragment>
-            <h1>Update Book</h1>
+            <h1>Update</h1>
             <BookForm 
                 isLoading={isMutating}
                 defaultValues={data}
@@ -39,7 +43,6 @@ export const Update = (): JSX.Element => {
         </React.Fragment>
     );
 };
-
 
 
 

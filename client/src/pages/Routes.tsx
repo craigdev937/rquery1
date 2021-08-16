@@ -11,7 +11,7 @@ export const Routes = () => (
         <Switch>
             <Route path="/" exact component={List} />
             <Route path="/create" component={Create} />
-            <Route path="/update" component={Update} />
+            <Route path="/update/:id" component={Update} />
         </Switch>
     </React.Fragment>
 );

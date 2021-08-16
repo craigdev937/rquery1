@@ -1,0 +1,21 @@
+:root {
+    --purple: #493657;
+    --orange: #f7836c;
+    --blue: #2e3a5c;
+    --white: #fff;
+    --black: #000;
+}
+
+*, *::before, *::after {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--purple);
+    color: var(--white);
+}
+
+
+
